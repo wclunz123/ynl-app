@@ -1,16 +1,19 @@
 import React, { Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import { Nav, Navbar, Dropdown } from "rsuite";
 import { Container, Header, Content, Footer } from "rsuite";
 import { CircularProgress } from "@mui/material";
 
+import About from "./Components/About";
+import Tracker from "./Components/Tracker";
+import NavigationBar from "./Components/Navigation/NavigationBar";
 import CustomFooter from "./Components/CustomFooter";
 
 import "rsuite/styles/index.less";
 import "rsuite/dist/rsuite.min.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
+import Home from "./Components/Home";
 
 function App() {
   let routes = (
@@ -24,29 +27,10 @@ function App() {
       <main>
         <Container>
           <Header>
-            <Navbar appearance="inverse">
-              <Navbar.Header>
-                <a className="navbar-brand logo">BRAND</a>
-              </Navbar.Header>
-              <Navbar.Body>
-                <Nav>
-                  <Nav.Item>Home</Nav.Item>
-                  <Nav.Item>News</Nav.Item>
-                  <Nav.Item>Products</Nav.Item>
-                  <Dropdown title="About">
-                    <Dropdown.Item>Company</Dropdown.Item>
-                    <Dropdown.Item>Team</Dropdown.Item>
-                    <Dropdown.Item>Contact</Dropdown.Item>
-                  </Dropdown>
-                </Nav>
-                <Nav pullRight>
-                  <Nav.Item>Settings</Nav.Item>
-                </Nav>
-              </Navbar.Body>
-            </Navbar>
+            <NavigationBar />
           </Header>
           <Content>
-            <Suspense
+            {/* <Suspense
               fallback={
                 <div className="center">
                   <CircularProgress disableShrink />
@@ -54,10 +38,28 @@ function App() {
               }
             >
               {routes}
-            </Suspense>
-            <div className="App">
-              <h1>YNL Logistics</h1>
-            </div>
+            </Suspense> */}
+            <Home />
+            <Tracker />
+            <About />
+            {/* <img
+                  src={Logo}
+                  alt="logo"
+                  width={200}
+                  style={{
+                    alignSelf: "center",
+                  }}
+                /> */}
+
+            <section
+              id="newsfeed"
+              className="newsfeed"
+              style={{
+                height: "100vh",
+              }}
+            >
+              <h1>News Feed</h1>
+            </section>
           </Content>
           <Footer>
             <CustomFooter />
