@@ -1,0 +1,29 @@
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+@media (max-width: 768px) {
+    .footer {
+        margin-left: 5%;
+        width: 95%;
+    }
+}
+
+@media (max-width: 566px) {
+    .footer {
+        font-size: 85%;
+        margin-left: 8%;
+        width: 92%;
+    }
+}
+
+@media (max-width: 395px) {
+    .footer {
+        font-size: 65%;
+        margin-left: 10%;
+        width: 90%;
+    }
+}
