@@ -1,0 +1,20 @@
+.tracker-container {
+    width: 80%;
+    margin-left: 10%;
+    padding: 50px;
+    box-shadow: 0 0 10px;
+}
+
+.tracker-title {
+    font-size: 125%;
+    text-align: left;
+    font-weight: bolder;
+}
+
+.tracker-input {
+    height: 50px;
+}
+
+.tracker-button {
+    width: 150px;
+}

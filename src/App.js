@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Container, Header, Content, Footer } from "rsuite";
 
@@ -8,6 +8,9 @@ import Tracker from "./Components/Tracker";
 import Newsfeed from "./Components/Newsfeed";
 import NavigationBar from "./Components/Navigation/NavigationBar";
 import CustomFooter from "./Components/CustomFooter";
+import Login from "./Components/Login";
+
+import { CircularProgress } from "@mui/material";
 
 import Data from "./data";
 
@@ -20,7 +23,19 @@ import "./App.css";
 function App() {
   let routes = (
     <Routes>
-      <Route path="/" exact></Route>
+      <Route
+        path="/"
+        exact
+        element={
+          <div>
+            <Home carousel={Data.carousel} data={Data.tabs} />
+            <Tracker data={Data.tracker} />
+            <About data={Data.about} />
+            <Newsfeed data={Data.updates} />
+          </div>
+        }
+      ></Route>
+      <Route path="/login" exact element={<Login />}></Route>
     </Routes>
   );
 
@@ -32,10 +47,15 @@ function App() {
             <NavigationBar title={Data.company} />
           </Header>
           <Content>
-            <Home carousel={Data.carousel} data={Data.tabs} />
-            <Tracker data={Data.tracker} />
-            <About data={Data.about} />
-            <Newsfeed data={Data.updates} />
+            <Suspense
+              fallback={
+                <div className="center">
+                  <CircularProgress disableShrink />
+                </div>
+              }
+            >
+              {routes}
+            </Suspense>
           </Content>
           <Footer>
             <CustomFooter data={Data.footer} />

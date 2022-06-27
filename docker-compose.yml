@@ -1,0 +1,57 @@
+version: "3.8"
+
+services:
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: ynldb
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password
+      MYSQL_USER_FILE: /run/secrets/mysql_username
+      MYSQL_PASSWORD_FILE: /run/secrets/mysql_password
+      TZ: Asia/Shanghai
+    ports:
+      - "3306:3306"
+    volumes:
+      - type: volume
+        source: db-data
+        target: /var/lib/mysql
+      - type: bind
+        source: /etc/timezone
+        target: /etc/timezone
+        read_only: true
+      # - type: bind
+      #   source: ./mysql-config-file/my.cnf
+      #   target: /etc/mysql/my.cnf
+    networks:
+      - lmsnet
+    secrets:
+      - mysql_username
+      - mysql_password
+      - mysql_root_password
+    deploy:
+      resources:
+        limits:
+          memory: 1024M
+    ulimits: #added for mySQL
+      nofile:
+        soft: 20000
+        hard: 40000
+
+volumes:
+  db-data:
+
+networks:
+  lmsnet:
+    name: ynl-network
+    external: true
+
+secrets:
+  mysql_username:
+    # external: true
+    file: ./mysql_username.txt
+  mysql_password:
+    # external: true
+    file: ./mysql_password.txt
+  mysql_root_password:
+    # external: true
+    file: ./mysql_root_password.txt

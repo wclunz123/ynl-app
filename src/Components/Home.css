@@ -1,0 +1,15 @@
+.home {
+    text-align: center;
+}
+
+.carousel-container {
+    width: 80%;
+    margin-left: 10%;
+    margin-top: 25px;
+}
+
+.divider-summary {
+    width: 70%;
+    height: auto;
+    margin-left: 15%;
+}
