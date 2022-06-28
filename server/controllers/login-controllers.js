@@ -23,16 +23,15 @@ const loginUser = async (req, res, next) => {
                         "secret_token_ynl",
                         { expiresIn: "2h" }
                     );
+                    res.json({
+                        username: result[0].userId,
+                        usertype: result[0].userType,
+                        token: token
+                    });
                 } catch (err) {
                     const error = new HttpError("Logging in failed, please try again.", 500);
                     return next(error);
                 }
-
-                res.json({
-                    username: result[0].userId,
-                    usertype: result[0].userType,
-                    token: token
-                });
             }
         })
     } catch(err) {

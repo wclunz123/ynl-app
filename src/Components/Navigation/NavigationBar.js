@@ -1,8 +1,6 @@
-import React from "react";
-
+import React, { useContext } from "react";
+import { AuthContext } from "../../Hook/auth-context";
 import { Nav, Navbar, Dropdown, ButtonToolbar, Button } from "rsuite";
-
-import { FaFacebookF, FaWhatsapp, FaInstagram } from "react-icons/fa";
 
 import FacebookLogo from "../../Images/facebook.png";
 import WhatsAppLogo from "../../Images/whatsapp.png";
@@ -11,6 +9,8 @@ import Logo from "../../Images/logo.png";
 import "./NavigationBar.css";
 
 const NavigationBar = (props) => {
+  const auth = useContext(AuthContext);
+
   return (
     <div
       style={{
@@ -27,15 +27,14 @@ const NavigationBar = (props) => {
           <Navbar.Brand>
             <div className="d-flex flex-row">
               <img className="mx-4" src={Logo} alt="logo" height={30} />
-              <div>{props.title}</div>
+              <div href="#home">{props.title}</div>
             </div>
           </Navbar.Brand>
           <Nav>
-            <Nav.Item>Home</Nav.Item>
-            <Nav.Item>Track</Nav.Item>
-            <Nav.Item>About Us</Nav.Item>
-            <Nav.Item>Updates</Nav.Item>
-            <Nav.Item>Contact Us</Nav.Item>
+            <Nav.Item href="#home">Home</Nav.Item>
+            <Nav.Item href="#track">Track</Nav.Item>
+            <Nav.Item href="#about">About Us</Nav.Item>
+            <Nav.Item href="#newsfeed">Updates</Nav.Item>
           </Nav>
 
           <div
@@ -81,7 +80,7 @@ const NavigationBar = (props) => {
               />
             </a>
             <Button color="green" appearance="primary">
-              <span>+6016 200 2856</span>
+              {auth.isLoggedIn ? <input type="text" value="+6016 200 2856" style={{ color: "black" }} /> : <span>+6016 200 2856</span>}
             </Button>
           </div>
         </div>

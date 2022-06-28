@@ -1,9 +1,12 @@
-import React, { useState } from "react";
-import { Card } from "react-bootstrap";
+import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
+import { AuthContext } from "../Hook/auth-context";
 import axios from "axios";
 
 const Login = (props) => {
+  const navigate = useNavigate();
+  const auth = useContext(AuthContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -16,13 +19,13 @@ const Login = (props) => {
     event.preventDefault();
 
     try {
-      let response = await axios.post("http://localhost:3000/api/login", {
+      let response = await axios.post("http://localhost:3000/login", {
         username: username,
         password: password,
       });
       if (response.status === 200) {
-        console.log("Success");
-        // auth.login(response.data.username, response.data.token);
+        auth.login(response.data.username, response.data.token);
+        navigate("/", { replace: true });
         setError("");
       }
     } catch (err) {
@@ -43,6 +46,9 @@ const Login = (props) => {
             type="username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            style={{
+              width: "300px"
+            }}
           />
         </Form.Group>
         <Form.Group size="lg" controlId="password" className="my-2">
@@ -51,6 +57,9 @@ const Login = (props) => {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            style={{
+              width: "300px"
+            }}
           />
         </Form.Group>
         <Button
