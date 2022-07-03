@@ -80,7 +80,7 @@ const NavigationBar = (props) => {
               />
             </a>
             <Button color="green" appearance="primary">
-              {auth.isLoggedIn ? <input type="text" value="+6016 200 2856" style={{ color: "black" }} /> : <span>+6016 200 2856</span>}
+              <span>+6016 200 2856</span>
             </Button>
           </div>
         </div>

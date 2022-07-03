@@ -7,9 +7,11 @@ import About from "./Components/About";
 import Tracker from "./Components/Tracker";
 import Newsfeed from "./Components/Newsfeed";
 import NavigationBar from "./Components/Navigation/NavigationBar";
+import AdminNavBar from "./Components/Navigation/AdminNavBar";
 import CustomFooter from "./Components/CustomFooter";
 import Login from "./Components/Login";
 import Admin from "./Components/Admin";
+import OrderList from "./Components/OrderList";
 
 import { CircularProgress } from "@mui/material";
 import { AuthContext } from "./Hook/auth-context";
@@ -39,9 +41,11 @@ function App() {
             <Newsfeed data={Data.updates} />
           </div>
         }
-      ></Route>
-      <Route path="/login" exact element={<Login />}></Route>
-      <Route path="/admin" exact element={<Admin />}></Route>
+      />
+      <Route path="/login" exact element={<Login />} />
+      {token && <Route path="/admin" exact element={<Admin />} /> }
+      {token && <Route path="/order" exact element={<OrderList />} /> } 
+      {/* {token && <Route path="/news" exact element={<NewsList />} /> }  */}
     </Routes>
   );
 
@@ -58,8 +62,9 @@ function App() {
     <Router>
       <main>
         <Container>
-          <Header>
-            <NavigationBar title={Data.company} />
+          <Header>{console.log("IS LOGGED IN: " + token)}
+            {!token && <NavigationBar title={Data.company} /> }
+            {token && <AdminNavBar title={Data.company} /> }
           </Header>
           <Content>
             <Suspense
