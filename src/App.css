@@ -1,6 +1,8 @@
 section {
-  margin-top: 50px;
+  margin-top: 30px;
+  margin-bottom: 200px;
   height: 100vh;
+  padding: 15px;
 }
 
 .red-bold {
@@ -12,4 +14,10 @@ section {
 .black-font {
   color: black;
   font-size: 120%;
+}
+
+.form-input-row {
+  width: 100%;
+  margin-bottom: 5px;
+  padding: 8px;
 }

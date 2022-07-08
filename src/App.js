@@ -12,6 +12,8 @@ import CustomFooter from "./Components/CustomFooter";
 import Login from "./Components/Login";
 import Admin from "./Components/Admin";
 import OrderList from "./Components/OrderList";
+import Order from "./Components/Order";
+import UpdateList from "./Components/UpdateList";
 
 import { CircularProgress } from "@mui/material";
 import { AuthContext } from "./Hook/auth-context";
@@ -43,46 +45,52 @@ function App() {
         }
       />
       <Route path="/login" exact element={<Login />} />
-      {token && <Route path="/admin" exact element={<Admin />} /> }
-      {token && <Route path="/order" exact element={<OrderList />} /> } 
+      {/* <Route path="/admin" exact element={<Admin />} /> */}
+      {token && <Route path="/order" exact element={<OrderList />} /> }
+      {token && <Route path="/order/item" exact element={<Order /> } /> }
+      {token && <Route path="/updates" exact element={<UpdateList />} /> }
+      
+      {/* {token && <Route path="/admin" exact element={<Admin />} /> }
+      {token && <Route path="/order" exact element={<OrderList />} /> }  */}
       {/* {token && <Route path="/news" exact element={<NewsList />} /> }  */}
     </Routes>
   );
 
   return (
     <AuthContext.Provider
-    value={{
-      isLoggedIn: !!token,
-      token: token,
-      userId: userId,
-      login: login,
-      logout: logout,
-    }}
+      value={{
+        isLoggedIn: !!token,
+        token: token,
+        userId: userId,
+        login: login,
+        logout: logout,
+      }}
     >
-    <Router>
-      <main>
-        <Container>
-          <Header>{console.log("IS LOGGED IN: " + token)}
-            {!token && <NavigationBar title={Data.company} /> }
-            {token && <AdminNavBar title={Data.company} /> }
-          </Header>
-          <Content>
-            <Suspense
-              fallback={
-                <div className="center">
-                  <CircularProgress disableShrink />
-                </div>
-              }
-            >
-              {routes}
-            </Suspense>
-          </Content>
-          <Footer>
-            <CustomFooter data={Data.footer} />
-          </Footer>
-        </Container>
-      </main>
-    </Router>
+      <Router>
+        <main>
+          <Container>
+            <Header>
+              {console.log("IS LOGGED IN: " + token)}
+              {!token && <NavigationBar title={Data.company} />}
+              {token && <AdminNavBar title={Data.company} />}
+            </Header>
+            <Content>
+              <Suspense
+                fallback={
+                  <div className="center">
+                    <CircularProgress disableShrink />
+                  </div>
+                }
+              >
+                {routes}
+              </Suspense>
+            </Content>
+            <Footer>
+              <CustomFooter data={Data.footer} />
+            </Footer>
+          </Container>
+        </main>
+      </Router>
     </AuthContext.Provider>
   );
 }
