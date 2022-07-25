@@ -1,7 +1,9 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../Hook/auth-context";
-import { Nav, Navbar, Dropdown, ButtonToolbar, Button } from "rsuite";
+import { Nav, Navbar, Button } from "rsuite";
+
+import { useDispatch } from "react-redux";
+import { logout } from "../../Redux/authSlice";
 
 import FacebookLogo from "../../Images/facebook.png";
 import WhatsAppLogo from "../../Images/whatsapp.png";
@@ -10,11 +12,11 @@ import Logo from "../../Images/logo.png";
 import "./NavigationBar.css";
 
 const AdminNavBar = (props) => {
-  const auth = useContext(AuthContext);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const logoutHandler = () => {
-    auth.logout();
+    dispatch(logout());
     navigate("/", { replace: true });
   }
 

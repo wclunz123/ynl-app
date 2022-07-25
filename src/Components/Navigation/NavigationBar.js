@@ -1,6 +1,5 @@
-import React, { useContext } from "react";
-import { AuthContext } from "../../Hook/auth-context";
-import { Nav, Navbar, Dropdown, ButtonToolbar, Button } from "rsuite";
+import React from "react";
+import { Nav, Navbar, Button } from "rsuite";
 
 import FacebookLogo from "../../Images/facebook.png";
 import WhatsAppLogo from "../../Images/whatsapp.png";
@@ -9,8 +8,6 @@ import Logo from "../../Images/logo.png";
 import "./NavigationBar.css";
 
 const NavigationBar = (props) => {
-  const auth = useContext(AuthContext);
-
   return (
     <div
       style={{
