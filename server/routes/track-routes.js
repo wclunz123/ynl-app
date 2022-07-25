@@ -19,7 +19,7 @@ router.delete("/delete/:orderStatusId", [], trackControllers.removeOrderStatus);
 
 router.post(
   "/search",
-  [check("orderId").not().isEmpty()],
+  [check("searchOrder").not().isEmpty()],
   trackControllers.searchOrder
 );
 

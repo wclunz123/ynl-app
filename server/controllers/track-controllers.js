@@ -18,7 +18,10 @@ const addOrderStatus = async (req, res, next) => {
       );
       return next(error);
     } else {
-      let lastInsertItemQuery = "SELECT * FROM `OrderStatus` WHERE orderStatusId = '" + result.insertId + "';";
+      let lastInsertItemQuery =
+        "SELECT * FROM `OrderStatus` WHERE orderStatusId = '" +
+        result.insertId +
+        "';";
       db.query(lastInsertItemQuery, (err3, lastInsertItemResult) => {
         if (err3) throw err3;
         if (lastInsertItemResult?.length <= 0) {
@@ -73,8 +76,12 @@ const removeOrderStatus = (req, res, next) => {
 };
 
 const searchOrder = async (req, res, next) => {
-  const { orderId } = req.body;
-  let query = `SELECT * FROM Order o INNER JOIN OrderStatus s ON s.orderId = o.orderId WHERE orderId = '${orderId}';`;
+  const { searchOrder } = req.body;
+  console.log(searchOrder);
+  let query =
+    "SELECT * FROM `Order` o INNER JOIN `OrderStatus` s ON s.orderId = o.orderId WHERE s.orderId = '" +
+    searchOrder +
+    "';";
 
   try {
     db.query(query, (err, result) => {

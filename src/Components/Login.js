@@ -1,12 +1,14 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
-import { AuthContext } from "../Hook/auth-context";
+
+import { useDispatch } from "react-redux";
+import { login } from "../Redux/authSlice";
 import axios from "axios";
 
 const Login = (props) => {
   const navigate = useNavigate();
-  const auth = useContext(AuthContext);
+  const dispatch = useDispatch();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -24,8 +26,11 @@ const Login = (props) => {
         password: password,
       });
       if (response.status === 200) {
-        console.log(JSON.stringify(response.data));
-        auth.login(response.data.username, response.data.token);
+        // auth.login(response.data.username, response.data.token);
+        dispatch(login({
+          user: response.data.username,
+          token: response.data.token
+        }));
         navigate("/", { replace: true });
         setError("");
       }
