@@ -70,7 +70,10 @@ const Order = (props) => {
   const getOrderStatusList = async (id) => {
     let response = await axios.get(`http://localhost:3000/api/track/${id}`);
     if (response?.status === 200) {
-      console.log(JSON.stringify(response.data));
+      response.data.map((item) => {
+        item.statusTime = item.statusDateTime.split("T")[1].split(".")[0];
+        item.statusDate = item.statusDateTime.split("T")[0];
+      })
       setOrderStatusList(response.data);
     }
   };
@@ -80,9 +83,9 @@ const Order = (props) => {
   };
 
   const deleteOrderHandler = async () => {
+    console.log("DELETING: " + location.state.orderId);
     let response = await axios.delete(
-      `http://localhost:3000/api/order/delete/`,
-      location.state.orderId
+      `http://localhost:3000/api/order/delete/${location.state.orderId}`
     );
     if (response?.status === 200) {
       // toast.success("Successfully added new order status.");
@@ -91,9 +94,9 @@ const Order = (props) => {
     } else {
       console.log("Something went wrong.");
     }
-    setOrderStatusList((prevState) => [
-      ...prevState.filter((item) => item.orderId !== location.state.orderId),
-    ]);
+    // setOrderStatusList((prevState) => [
+    //   ...prevState.filter((item) => item.orderId !== location.state.orderId),
+    // ]);
   };
 
   const deleteStatusHandler = async (data) => {
@@ -145,6 +148,10 @@ const Order = (props) => {
       // toast.success("Successfully added new order status.");
       console.log("Success.");
       console.log(JSON.stringify(response.data));
+      response.data.map((item) => {
+        item.statusTime = item.statusDateTime.split("T")[1].split(".")[0];
+        item.statusDate = item.statusDateTime.split("T")[0];
+      })
       setOrderStatusList((prevState) => [...prevState, response.data[0]]);
     } else console.log("Something went wrong.");
     setModalOpen(false);

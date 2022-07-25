@@ -19,8 +19,8 @@ router.post(
 );
 
 router.delete(
-  "/delete",
-  [check("orderId").not().isEmpty()],
+  "/delete/:orderId",
+  [],
   orderControllers.deleteOrder
 );
 

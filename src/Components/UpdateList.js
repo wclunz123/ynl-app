@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Row, Col, Button } from "react-bootstrap";
 import { Modal } from "rsuite";
 import News from "./News";
+import axios from "axios";
 
 import "./UpdateList.css";
 
@@ -30,9 +31,21 @@ const dummyData = [
 ];
 
 const UpdateList = (props) => {
-  const [newsList, setNewsList] = useState(dummyData);
+  const [newsList, setNewsList] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedNews, setSelectedNews] = useState();
+
+  useEffect(() => {
+    getNewsfeedList();
+  }, []);
+
+  const getNewsfeedList = async () => {
+    let response = await axios.get("http://localhost:3000/api/news/");
+    if (response?.status === 200) {
+      console.log(JSON.stringify(response.data));
+      setNewsList(response.data);
+    }
+  }
 
   const addNewsSubmitHandler = async () => {
     let title = document.getElementById("title").value;

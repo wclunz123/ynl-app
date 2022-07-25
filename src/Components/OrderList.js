@@ -87,7 +87,10 @@ const OrderList = (props) => {
     try {
       let response = await axios.get(`http://localhost:3000/api/order/`);
       if (response?.status === 200) {
-        console.log(JSON.stringify(response.data));
+        response.data.map((item) => {
+          item.orderTime = item.orderDate.split("T")[1].split(".")[0];
+          item.orderDate = item.orderDate.split("T")[0];
+        })
         setOrderList(response.data);
         setIsLoading(false);
       }
@@ -97,7 +100,7 @@ const OrderList = (props) => {
   };
 
   const addOrderSubmitHandler = async () => {
-    let orderId = document.getElementById("orderNumber").value;
+    let orderId = document.getElementById("orderId").value;
     let orderStatus =
       document.getElementById("orderStatus").options[
         document.getElementById("orderStatus").selectedIndex
@@ -118,20 +121,9 @@ const OrderList = (props) => {
       response.status === 200
     ) {
       console.log("Success");
+      console.log(JSON.stringify(response.data));
       setOrderList((prevState) => [...prevState, response.data]);
     }
-
-    // setOrderList((prevState) => [
-    //   ...prevState,
-    //   {
-    //     id: prevState.length + 1,
-    //     orderNo: Math.random() * 1000,
-    //     orderStatus: "Open",
-    //     orderDate: "01-07-2022",
-    //     orderTime: "15:30:25",
-    //   },
-    // ]);
-
     setModalOpen(false);
   };
 
@@ -161,11 +153,11 @@ const OrderList = (props) => {
           </Modal.Header>
           <Modal.Body>
             <Form>
-              <Form.Group controlId="orderNumber" className="my-2">
+              <Form.Group controlId="orderId" className="my-2">
                 <Form.Label>Order Number</Form.Label>
                 <Form.Control
                   type="text"
-                  name="orderNumber"
+                  name="orderId"
                   required
                   className="form-input-row"
                 />
@@ -224,7 +216,7 @@ const OrderList = (props) => {
             </div>
             <div>
               <Table
-                height={420}
+                height={400}
                 data={searchValue === "" ? orderList : searchResult}
                 loading={isLoading}
                 onRowClick={(rowData) =>
@@ -232,12 +224,9 @@ const OrderList = (props) => {
                     replace: true,
                     state: rowData,
                   })
+                  // orderClickHandler(rowData);
                 }
               >
-                {/* <Column>
-                  <HeaderCell>Id</HeaderCell>
-                  <Cell dataKey="idx" />
-                </Column> */}
                 <Column flexGrow={1}>
                   <HeaderCell>Order No</HeaderCell>
                   <Cell dataKey="orderId" />
@@ -265,9 +254,9 @@ const OrderList = (props) => {
                   boundaryLinks
                   maxButtons={5}
                   size="xs"
-                  layout={["total", "-", "limit", "|", "pager", "skip"]}
-                  total={dummyData.length}
-                  limitOptions={[10, 20]}
+                  layout={["total", "-", "limit", "|", "pager"]}
+                  total={orderList.length}
+                  limitOptions={[10, 25]}
                   limit={limit}
                   activePage={page}
                   onChangePage={setPage}

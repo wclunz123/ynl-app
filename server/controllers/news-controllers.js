@@ -5,26 +5,26 @@ const HttpError = require("../models/http-error");
 const { validationResult } = require("express-validator");
 const TYPES = require("tedious").TYPES;
 
-const createOrder = async (req, res, next) => {
-  const { orderId, orderStatus } = req.body;
-  let query = "INSERT INTO `Order`(orderId, orderStatus) VALUES('" + orderId + "', '" + orderStatus + "');";
+const createNews = async (req, res, next) => {
+  const { newsfeedTitle, newsfeedBody } = req.body;
+  let query = "INSERT INTO `Newsfeed`(newsfeedTitle, newsfeedBody) VALUES('" + newsfeedTitle + "', '" + newsfeedBody + "');";
 
   try {
     db.query(query, (err, result) => {
       if (err) throw err;
       if (result?.length === 0) {
         const error = new HttpError(
-          "Failed creating new order. Please try again later.",
+          "Failed creating new newsfeed. Please try again later.",
           402
         );
         return next(error);
       } else {
-        let retrieveQuery = "SELECT * FROM `Order` WHERE orderId = '" + orderId + "';";
+        let retrieveQuery = "SELECT * FROM `Newsfeed` WHERE newsfeedId = '" + result.insertId + "';";
         db.query(retrieveQuery, (errRetrieve, retrieveResult) => {
           if (errRetrieve) throw errRetrieve;
           if (retrieveResult?.length <= 0) {
             const error = new HttpError(
-              "Failed creating new order. Something went wrong.",
+              "Failed creating new newsfeed. Something went wrong.",
               402
             );
             return next(error);
@@ -34,47 +34,47 @@ const createOrder = async (req, res, next) => {
     });
   } catch (err) {
     const error = new HttpError(
-      "Something went wrong, could not create the order.",
+      "Something went wrong, could not create the newsfeed.",
       500
     );
     return next(error);
   }
 };
 
-const getOrders = (req, res, next) => {
-  let query = "SELECT * FROM `Order`;";
+const getNews = (req, res, next) => {
+  let query = "SELECT * FROM `Newsfeed`;";
   db.query(query, (err, result) => {
     if (err) throw err;
     if (result?.length < 0)
       return res.status(402).json("Failed to retrieve orders.");
     else if (result?.length === 0)
-      return res.status(404).json("No orders found.");
+      return res.status(404).json("No news found.");
     else return res.status(200).json(result);
   });
 };
 
-const updateOrder = (req, res, next) => {
-  const { orderId, orderStatus } = req.body;
-  let query = "UPDATE `Order` SET orderStatus = '" + orderStatus + "' WHERE orderId = '" + orderId + "');";
+const updateNews = (req, res, next) => {
+  const { newsfeedId, newsfeedTitle, newsfeedBody } = req.body;
+  let query = "UPDATE `Newsfeed` SET newsfeedTitle = '" + newsfeedTitle + "', newsfeedBody = '" + newsfeedBody + "' WHERE newsfeedId = '" + newsfeedId + "');";
 
   db.query(query, (err, result) => {
     if (err) throw err;
     if (result?.length === 0)
-      return res.status(402).json("Failed to update order.");
+      return res.status(402).json("Failed to update news.");
     else return res.status(200).json("Update successfully.");
   });
 };
 
-const deleteOrder = (req, res, next) => {
-  const { orderId } = req.params;
-  console.log(orderId);
-  let query = "DELETE FROM `Order` WHERE orderId = '" + orderId + "';";
+const deleteNews = (req, res, next) => {
+  const { newsfeedId } = req.params;
+  console.log(newsfeedId);
+  let query = "DELETE FROM `Newsfeed` WHERE newsfeedId = '" + newsfeedId + "';";
 
   db.query(query, (err, result) => {
     if (err) throw err;
     if (result?.length <= 0) {
       const error = new HttpError(
-        "Failed to delete the order. Please try again later.",
+        "Failed to delete the news. Please try again later.",
         402
       );
       return next(error);
@@ -82,7 +82,7 @@ const deleteOrder = (req, res, next) => {
   });
 };
 
-exports.createOrder = createOrder;
-exports.getOrders = getOrders;
-exports.updateOrder = updateOrder;
-exports.deleteOrder = deleteOrder;
+exports.createNews = createNews;
+exports.getNews = getNews;
+exports.updateNews = updateNews;
+exports.deleteNews = deleteNews;
