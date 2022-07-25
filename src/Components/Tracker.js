@@ -4,6 +4,13 @@ import TrackResult from "./TrackResult";
 import "./Tracker.css";
 
 const Tracker = (props) => {
+
+  const searchSubmitHandler = (event) => {
+    if (event.keyCode === "13") {
+      console.log("Enter");
+    }
+  }
+
   return (
     <section id="track" className="track">
       <div className="d-flex flex-column justify-content-center my-4 tracker-container">
@@ -15,8 +22,10 @@ const Tracker = (props) => {
             type="text"
             placeholder={props.data.placeholder}
             className="tracker-input"
+            onKeyPress={searchSubmitHandler}
+            onChange={props.setSearchOrder}
           />
-          <Button className="tracker-button" color="yellow" appearance="primary">
+          <Button className="tracker-button" color="yellow" appearance="primary" onClick={props.submitSearch}>
             {props.data.button}
           </Button>
         </div>

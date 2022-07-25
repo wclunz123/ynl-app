@@ -19,11 +19,12 @@ const Login = (props) => {
     event.preventDefault();
 
     try {
-      let response = await axios.post("http://localhost:3000/login", {
+      let response = await axios.post("http://localhost:3000/api/login", {
         username: username,
         password: password,
       });
       if (response.status === 200) {
+        console.log(JSON.stringify(response.data));
         auth.login(response.data.username, response.data.token);
         navigate("/", { replace: true });
         setError("");

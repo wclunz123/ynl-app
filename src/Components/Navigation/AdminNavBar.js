@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Hook/auth-context";
 import { Nav, Navbar, Dropdown, ButtonToolbar, Button } from "rsuite";
 
@@ -8,11 +9,17 @@ import InstaLogo from "../../Images/instagram.png";
 import Logo from "../../Images/logo.png";
 import "./NavigationBar.css";
 
-const AdminNavBar = props => {
-    const auth = useContext(AuthContext);
+const AdminNavBar = (props) => {
+  const auth = useContext(AuthContext);
+  const navigate = useNavigate();
 
-    return(
-        <div
+  const logoutHandler = () => {
+    auth.logout();
+    navigate("/", { replace: true });
+  }
+
+  return (
+    <div
       style={{
         position: "fixed",
         top: "0",
@@ -31,8 +38,8 @@ const AdminNavBar = props => {
             </div>
           </Navbar.Brand>
           <Nav>
-            <Nav.Item href="#home">Manage Order</Nav.Item>
-            <Nav.Item href="#track">Manage News</Nav.Item>
+            <Nav.Item href="/admin/order">Manage Order</Nav.Item>
+            <Nav.Item href="/admin/newsfeed">Manage News</Nav.Item>
           </Nav>
 
           <div
@@ -77,14 +84,14 @@ const AdminNavBar = props => {
                 }}
               />
             </a>
-            <Button color="green" appearance="primary">
-              {auth.isLoggedIn ? <input type="text" value="+6016 200 2856" style={{ color: "black" }} /> : <span>+6016 200 2856</span>}
+            <Button color="green" appearance="primary" onClick={logoutHandler}>
+              <span>Logout</span>
             </Button>
           </div>
         </div>
       </Navbar>
     </div>
-    )
-}
+  );
+};
 
 export default AdminNavBar;

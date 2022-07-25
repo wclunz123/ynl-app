@@ -9,7 +9,8 @@ const db = mysql.createConnection(dbconfig);
 const port = process.env.PORT || 3000;
 
 const loginRoute = require("./routes/login-routes");
-// const trackRoute = require("./routes/track-routes");
+const orderRoute = require("./routes/order-routes");
+const trackRoute = require("./routes/track-routes");
 
 const app = express();
 
@@ -29,8 +30,9 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/login", loginRoute);
-// app.use("/track", trackRoute);
+app.use("/api/login", loginRoute);
+app.use("/api/order", orderRoute);
+app.use("/api/track", trackRoute);
 
 app.use("*", (req, res, next) => {
   res.sendFile(path.join(__dirname, "..", "build", "index.html"));

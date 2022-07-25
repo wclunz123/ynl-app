@@ -20,27 +20,24 @@ const dummyData = [
     idx: 1,
     orderNo: "YNL41024012",
     orderStatus: "Open",
-    orderDate: "15-06-2022",
-    clientName: "Lawrence Yoong",
-    clientAddress: "276A Compassvale Bow #02-421 Singapore 502512",
+    orderDate: "2022-06-15",
+    orderTime: "15:42:05",
     description: "",
   },
   {
     idx: 2,
     orderNo: "YNL410223242",
     orderStatus: "Open",
-    orderDate: "25-06-2022",
-    clientName: "Babi Yoong",
-    clientAddress: "276A Compassvale Bow #02-421 Singapore 502512",
+    orderDate: "2022-06-25",
+    orderTime: "15:42:05",
     description: "",
   },
   {
     idx: 3,
     orderNo: "YNL41024212",
     orderStatus: "Closed",
-    orderDate: "15-06-2022",
-    clientName: "Salad Yoong",
-    clientAddress: "276A Compassvale Bow #02-421 Singapore 502512",
+    orderDate: "2022-05-15",
+    orderTime: "15:42:05",
     description: "",
   },
 ];
@@ -76,8 +73,8 @@ const OrderList = (props) => {
   } = useForm({ resolver: yupResolver(validationSchema) });
 
   useEffect(() => {
-    // getOrderList();
-    setOrderList(dummyData);
+    getOrderList();
+    // setOrderList(dummyData);
   }, []);
 
   const handleChangeLimit = (dataKey) => {
@@ -88,11 +85,9 @@ const OrderList = (props) => {
   const getOrderList = async () => {
     setIsLoading(true);
     try {
-      let response = await axios.get("http://localhost:3000/api/orderlist");
-      if (
-        (response !== null || response !== undefined) &&
-        response.status === 200
-      ) {
+      let response = await axios.get(`http://localhost:3000/api/order/`);
+      if (response?.status === 200) {
+        console.log(JSON.stringify(response.data));
         setOrderList(response.data);
         setIsLoading(false);
       }
@@ -102,36 +97,40 @@ const OrderList = (props) => {
   };
 
   const addOrderSubmitHandler = async () => {
-    let orderNo = document.getElementById("orderNumber").value;
+    let orderId = document.getElementById("orderNumber").value;
     let orderStatus =
       document.getElementById("orderStatus").options[
         document.getElementById("orderStatus").selectedIndex
       ].value;
 
-    if (orderNo === "" || orderStatus === "")
+    if (orderId === "" || orderStatus === "")
       document.getElementById("alertMessage").innerHTML =
         "Please insert appropriate value.";
 
-    // let response = await axios.post("http://localhost:3000/api/order", {
-    //     orderNo,
-    //     orderStatus
-    // })
+    let response = await axios.post("http://localhost:3000/api/order/create", {
+      orderId,
+      orderStatus,
+    });
 
-    // if (response !== null && response !== undefined && response.status === 200) {
-    //     console.log("Success");
-    //     setOrderList((prevState) => [ ...prevState, response.data])
-    // }
+    if (
+      response !== null &&
+      response !== undefined &&
+      response.status === 200
+    ) {
+      console.log("Success");
+      setOrderList((prevState) => [...prevState, response.data]);
+    }
 
-    setOrderList((prevState) => [
-      ...prevState,
-      {
-        id: prevState.length+1,
-        orderNo: Math.random() * 1000,
-        orderStatus: "Open",
-        orderDate: "01-07-2022",
-        orderTime: "15:30:25",
-      },
-    ]);
+    // setOrderList((prevState) => [
+    //   ...prevState,
+    //   {
+    //     id: prevState.length + 1,
+    //     orderNo: Math.random() * 1000,
+    //     orderStatus: "Open",
+    //     orderDate: "01-07-2022",
+    //     orderTime: "15:30:25",
+    //   },
+    // ]);
 
     setModalOpen(false);
   };
@@ -221,12 +220,6 @@ const OrderList = (props) => {
                 >
                   Add Order
                 </Button>
-                {/* <Button className="mx-2" variant="danger">
-                  Delete
-                </Button> */}
-                {/* <Button className="mx-2" variant="success">
-                  Refresh
-                </Button> */}
               </div>
             </div>
             <div>
@@ -235,16 +228,19 @@ const OrderList = (props) => {
                 data={searchValue === "" ? orderList : searchResult}
                 loading={isLoading}
                 onRowClick={(rowData) =>
-                  navigate("/order/item", { replace: true, state: rowData })
+                  navigate("/admin/order/item", {
+                    replace: true,
+                    state: rowData,
+                  })
                 }
               >
-                <Column>
+                {/* <Column>
                   <HeaderCell>Id</HeaderCell>
                   <Cell dataKey="idx" />
-                </Column>
+                </Column> */}
                 <Column flexGrow={1}>
                   <HeaderCell>Order No</HeaderCell>
-                  <Cell dataKey="orderNo" />
+                  <Cell dataKey="orderId" />
                 </Column>
                 <Column flexGrow={1}>
                   <HeaderCell>Status</HeaderCell>
@@ -258,14 +254,6 @@ const OrderList = (props) => {
                   <HeaderCell>Time</HeaderCell>
                   <Cell dataKey="orderTime" />
                 </Column>
-                {/* <Column flexGrow={1}>
-                  <HeaderCell>Client Name</HeaderCell>
-                  <Cell dataKey="clientName" />
-                </Column>
-                <Column flexGrow={1}>
-                  <HeaderCell>Client Address</HeaderCell>
-                  <Cell dataKey="clientAddress" />
-                </Column> */}
               </Table>
               <div style={{ padding: 20 }}>
                 <Pagination

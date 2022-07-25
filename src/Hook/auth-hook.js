@@ -15,7 +15,7 @@ export const useAuth = () => {
       console.log(uid);
       console.log(token);
       localStorage.setItem(
-        "userData",
+        "user",
         JSON.stringify({
           userId: uid,
           token: token,

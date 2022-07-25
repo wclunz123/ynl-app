@@ -8,35 +8,36 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
+import { X } from "react-bootstrap-icons";
 
 import "./Order.css";
 
 const dummyData = [
   {
     id: 1,
-    statusDate: "15/06/2022",
+    statusDate: "2022-06-15",
     statusTime: "17:20:55",
     statusCountry: "SINGAPORE",
-    statusTracker: "Immigration clearance.",
+    statusDescription: "Immigration clearance.",
   },
   {
     id: 2,
-    statusDate: "18/06/2022",
+    statusDate: "2022-06-18",
     statusTime: "23:11:45",
     statusCountry: "MALAYSIA",
-    statusTracker: "Arrived in destination country.",
+    statusDescription: "Arrived in destination country.",
   },
   {
     id: 3,
-    statusDate: "12/07/2022",
+    statusDate: "2022-07-11",
     statusTime: "09:56:12",
     statusCountry: "MALAYSIA",
-    statusTracker: "Out for delivery.",
+    statusDescription: "Out for delivery.",
   },
 ];
 
 const validationSchema = Yup.object().shape({
-  orderNo: Yup.string().required(),
+  orderId: Yup.string().required(),
   orderStatus: Yup.string().required(),
   orderDate: Yup.string().required(),
   clientName: Yup.string().required(),
@@ -58,18 +59,20 @@ const Order = (props) => {
   } = useForm({ resolver: yupResolver(validationSchema) });
 
   const [isLoading, setIsLoading] = useState(false);
-  const [orderStatusList, setOrderStatusList] = useState(dummyData);
+  const [orderStatusList, setOrderStatusList] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
-    console.log(location.state);
     reset(location.state);
+    getOrderStatusList(location.state.orderId);
   }, []);
 
   const getOrderStatusList = async (id) => {
-    let response = await axios.get(`http://localhost:3000/api/order/${id}`);
-    if (response !== undefined && response !== null && response.status === 200)
-      console.log("RESULT: " + JSON.stringify(response.data));
+    let response = await axios.get(`http://localhost:3000/api/track/${id}`);
+    if (response?.status === 200) {
+      console.log(JSON.stringify(response.data));
+      setOrderStatusList(response.data);
+    }
   };
 
   const createOrderHandler = (data) => {
@@ -78,20 +81,42 @@ const Order = (props) => {
 
   const deleteOrderHandler = async () => {
     let response = await axios.delete(
-      `http://localhost:3000/api/order/delete/${location.state.orderId}`
+      `http://localhost:3000/api/order/delete/`,
+      location.state.orderId
     );
-    // if (response !== null && response !== undefined && response.status === 200) {
-    //     // toast.success("Successfully added new order status.");
-    //     console.log("Success.");
-    // } else {
-    //     console.log("Something went wrong.");
-    // }
-    // setOrderStatusList((prevState) => [ ...prevState.filter((item) => item.orderId !== location.state.orderId)]);
+    if (response?.status === 200) {
+      // toast.success("Successfully added new order status.");
+      console.log("Success.");
+      navigate("/admin/order", { replace: true });
+    } else {
+      console.log("Something went wrong.");
+    }
+    setOrderStatusList((prevState) => [
+      ...prevState.filter((item) => item.orderId !== location.state.orderId),
+    ]);
+  };
+
+  const deleteStatusHandler = async (data) => {
+    console.log("DELETE STATUS ID: " + JSON.stringify(data.orderStatusId));
+    let response = await axios.delete(
+      `http://localhost:3000/api/track/delete/${data.orderStatusId}`
+    );
+
+    if (response?.status === 200) {
+      // toast.success("Successfully remove order status.");
+      console.log("Success");
+    } else {
+      console.log("Something went wrong.");
+    }
+
+    setOrderStatusList((prevState) => [
+      ...prevState.filter((item) => item.orderStatusId !== data.orderStatusId),
+    ]);
   };
 
   const addStatusSubmitHandler = async () => {
     let countryDom = document.getElementById("statusCountry");
-    let trackerDom = document.getElementById("statusTracker");
+    let trackerDom = document.getElementById("statusDescription");
     if (
       countryDom.options[countryDom.selectedIndex].value === "-1" ||
       trackerDom.value === ""
@@ -102,23 +127,26 @@ const Order = (props) => {
     }
 
     let data = {
-      statusDate: new Date().toISOString().split("T")[0],
-      statusTime: new Date().toISOString().split("T")[1],
+      orderId: location.state.orderId,
       statusCountry: countryDom.options[countryDom.selectedIndex].value,
-      statusTracker: trackerDom.value,
+      statusDescription: trackerDom.value,
     };
 
-    console.log(JSON.stringify(data));
+    let response = await axios.post(
+      "http://localhost:3000/api/track/add",
+      data
+    );
 
-    // let response = await axios.post("http://localhost:3000/api/order/status", data);
-    // if (response !== null && response !== undefined && response.status === 200) {
-    //     // toast.success("Successfully added new order status.");
-    //     console.log("Success.");
-    // } else {
-    //     console.log("Something went wrong.");
-    // }
-
-    setOrderStatusList((prevState) => [...prevState, data]);
+    if (
+      response !== null &&
+      response !== undefined &&
+      response.status === 200
+    ) {
+      // toast.success("Successfully added new order status.");
+      console.log("Success.");
+      console.log(JSON.stringify(response.data));
+      setOrderStatusList((prevState) => [...prevState, response.data[0]]);
+    } else console.log("Something went wrong.");
     setModalOpen(false);
   };
 
@@ -139,12 +167,12 @@ const Order = (props) => {
                 <option value="CHINA">China</option>
               </Form.Select>
             </Form.Group>
-            <Form.Group controlId="statusTracker" className="my-2">
+            <Form.Group controlId="statusDescription" className="my-2">
               <Form.Label>Tracker</Form.Label>
               <Form.Control
                 type="text"
                 required
-                name="statusTracker"
+                name="statusDescription"
                 className="form-input-row"
                 placeholder="Status"
               />
@@ -182,7 +210,7 @@ const Order = (props) => {
           <Button
             variant="warning"
             className="my-auto"
-            onClick={() => navigate("/order", { replace: true })}
+            onClick={() => navigate("/admin/order", { replace: true })}
           >
             Return
           </Button>
@@ -192,11 +220,11 @@ const Order = (props) => {
         <Form id="addUserForm" onSubmit={handleSubmit(createOrderHandler)}>
           <div className="d-flex flex-column my-2">
             <Row>
-              <Form.Group as={Col} controlId="orderNo" className="my-2">
+              <Form.Group as={Col} controlId="orderId" className="my-2">
                 <Form.Label>Order Number</Form.Label>
                 <Controller
                   control={control}
-                  name="orderNo"
+                  name="orderId"
                   render={({ field: { onChange, onBlur, value } }) => (
                     <Form.Control
                       type="text"
@@ -205,12 +233,12 @@ const Order = (props) => {
                       readOnly
                       onBlur={onBlur}
                       onChange={onChange}
-                      isInvalid={errors.orderNo}
+                      isInvalid={errors.orderId}
                     />
                   )}
                 />
                 <Form.Control.Feedback type="invalid">
-                  {errors.orderNo?.message}
+                  {errors.orderId?.message}
                 </Form.Control.Feedback>
               </Form.Group>
               <Form.Group as={Col} controlId="orderStatus" className="my-2">
@@ -261,69 +289,7 @@ const Order = (props) => {
                   {errors.orderDate?.message}
                 </Form.Control.Feedback>
               </Form.Group>
-              {/* <Form.Group as={Col} controlId="clientName" className="my-2">
-                <Form.Label>Client Name</Form.Label>
-                <Controller
-                  control={control}
-                  name="clientName"
-                  render={({ field: { onChange, onBlur, value } }) => (
-                    <Form.Control
-                      type="text"
-                      className="form-input-row"
-                      value={value}
-                      onBlur={onBlur}
-                      onChange={onChange}
-                      isInvalid={errors.clientName}
-                    />
-                  )}
-                />
-                <Form.Control.Feedback type="invalid">
-                  {errors.clientName?.message}
-                </Form.Control.Feedback>
-              </Form.Group> */}
             </Row>
-            {/* <Row>
-              <Form.Group as={Col} controlId="clientAddress" className="my-2">
-                <Form.Label>Client Address</Form.Label>
-                <Controller
-                  control={control}
-                  name="clientAddress"
-                  render={({ field: { onChange, onBlur, value } }) => (
-                    <Form.Control
-                      type="text"
-                      className="form-input-row"
-                      value={value}
-                      onBlur={onBlur}
-                      onChange={onChange}
-                      isInvalid={errors.clientAddress}
-                    />
-                  )}
-                />
-                <Form.Control.Feedback type="invalid">
-                  {errors.clientAddress?.message}
-                </Form.Control.Feedback>
-              </Form.Group>
-              <Form.Group as={Col} controlId="description" className="my-2">
-                <Form.Label>Description</Form.Label>
-                <Controller
-                  control={control}
-                  name="description"
-                  render={({ field: { onChange, onBlur, value } }) => (
-                    <Form.Control
-                      type="text"
-                      className="form-input-row"
-                      value={value}
-                      onBlur={onBlur}
-                      onChange={onChange}
-                      isInvalid={errors.description}
-                    />
-                  )}
-                />
-                <Form.Control.Feedback type="invalid">
-                  {errors.description?.message}
-                </Form.Control.Feedback>
-              </Form.Group>
-            </Row> */}
           </div>
         </Form>
 
@@ -355,7 +321,21 @@ const Order = (props) => {
             </Column>
             <Column flexGrow={2}>
               <HeaderCell>Tracker</HeaderCell>
-              <Cell dataKey="statusTracker" />
+              <Cell dataKey="statusDescription" />
+            </Column>
+            <Column fixed="right">
+              <HeaderCell>Action</HeaderCell>
+              <Cell>
+                {(rowData) => {
+                  const deleteAction = () => deleteStatusHandler(rowData);
+                  return (
+                    <X
+                      className="delete-marker my-auto"
+                      onClick={deleteAction}
+                    />
+                  );
+                }}
+              </Cell>
             </Column>
           </Table>
         ) : (
