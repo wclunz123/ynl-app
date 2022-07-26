@@ -6,8 +6,8 @@ const { validationResult } = require("express-validator");
 const TYPES = require("tedious").TYPES;
 
 const createNews = async (req, res, next) => {
-  const { newsfeedTitle, newsfeedBody } = req.body;
-  let query = "INSERT INTO `Newsfeed`(newsfeedTitle, newsfeedBody) VALUES('" + newsfeedTitle + "', '" + newsfeedBody + "');";
+  const { title, desc } = req.body;
+  let query = "INSERT INTO `Newsfeed`(newsfeedTitle, newsfeedBody) VALUES('" + title + "', '" + desc + "');";
 
   try {
     db.query(query, (err, result) => {
@@ -54,8 +54,8 @@ const getNews = (req, res, next) => {
 };
 
 const updateNews = (req, res, next) => {
-  const { newsfeedId, newsfeedTitle, newsfeedBody } = req.body;
-  let query = "UPDATE `Newsfeed` SET newsfeedTitle = '" + newsfeedTitle + "', newsfeedBody = '" + newsfeedBody + "' WHERE newsfeedId = '" + newsfeedId + "');";
+  const { newsfeedId, title, desc } = req.body;
+  let query = "UPDATE `Newsfeed` SET newsfeedTitle = '" + title + "', newsfeedBody = '" + desc + "' WHERE newsfeedId = '" + newsfeedId + "');";
 
   db.query(query, (err, result) => {
     if (err) throw err;
@@ -66,9 +66,8 @@ const updateNews = (req, res, next) => {
 };
 
 const deleteNews = (req, res, next) => {
-  const { newsfeedId } = req.params;
-  console.log(newsfeedId);
-  let query = "DELETE FROM `Newsfeed` WHERE newsfeedId = '" + newsfeedId + "';";
+  const { id } = req.params;
+  let query = "DELETE FROM `Newsfeed` WHERE newsfeedId = '" + id + "';";
 
   db.query(query, (err, result) => {
     if (err) throw err;

@@ -39,7 +39,7 @@ function App() {
             <Home carousel={Data.carousel} data={Data.tabs} />
             <Tracker data={Data.tracker} />
             <About data={Data.about} />
-            <Newsfeed data={Data.updates} />
+            <Newsfeed />
           </div>
         }
       />

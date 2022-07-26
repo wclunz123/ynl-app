@@ -6,30 +6,6 @@ import axios from "axios";
 
 import "./UpdateList.css";
 
-const dummyData = [
-  {
-    id: 1,
-    title: "NASDAQ dropping all time low.",
-    description: "Collapsing of the tech stock index is awesome.",
-    date: "21/3/2022",
-    time: "10:52AM",
-  },
-  {
-    id: 2,
-    title: "DJ30 dropping all time low.",
-    description: "Collapsing of the tech stock index is awesome.",
-    date: "22/3/2022",
-    time: "05:06AM",
-  },
-  {
-    id: 3,
-    title: "SPX500 dropping all time low.",
-    description: "Collapsing of the tech stock index is awesome.",
-    date: "23/3/2022",
-    time: "06:12PM",
-  },
-];
-
 const UpdateList = (props) => {
   const [newsList, setNewsList] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
@@ -56,21 +32,21 @@ const UpdateList = (props) => {
       return;
     }
 
-    setNewsList((prevState) => [
-      {
-        id: 4,
-        title,
-        description: desc,
-        date: new Date().toISOString().split("T")[0],
-        time: new Date().toISOString().split("T")[1],
-      },
-      ...prevState,
-    ]);
+    let response = await axios.post("http://localhost:3000/api/news/create", { title, desc });
+    if (response?.status === 200) { 
+      console.log(JSON.stringify(response.data));
+      setNewsList((prevState) => [ ...prevState, response.data[0]]);
+    }
     setModalOpen(false);
   };
 
   const deleteNewsSubmitHandler = async (id) => {
-    setNewsList((prevState) => [...prevState.filter((item) => item.id !== id)]);
+    console.log("DELETING: " + id);
+    let response = await axios.delete(`http://localhost:3000/api/news/delete/${id}`);
+    if (response?.status === 200) {
+      console.log(JSON.stringify(response.data));
+      setNewsList((prevState) => [...prevState.filter((item) => item.newsfeedId !== id)]);
+    }
   };
 
   return (

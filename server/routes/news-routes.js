@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post(
   "/create",
-  [check("newsfeedTitle").not().isEmpty(), check("newsfeedBody").not().isEmpty()],
+  [check("title").not().isEmpty(), check("desc").not().isEmpty()],
   newsControllers.createNews
 );
 
@@ -14,12 +14,12 @@ router.get("/", [], newsControllers.getNews);
 
 router.post(
   "/update",
-  [check("newsfeedTitle").not().isEmpty(), check("newsfeedBody").not().isEmpty()],
+  [check("title").not().isEmpty(), check("desc").not().isEmpty()],
   newsControllers.updateNews
 );
 
 router.delete(
-  "/delete/:newsId",
+  "/delete/:id",
   [],
   newsControllers.deleteNews
 );
