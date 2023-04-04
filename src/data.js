@@ -1,12 +1,18 @@
-import Image1 from "./Images/ads0.png";
-import Image2 from "./Images/ads1.jpg";
-import Image3 from "./Images/ads2.png";
-import Image4 from "./Images/ads3.png";
-import Image5 from "./Images/ads4.png";
+// import Image1 from "./Images/ads0.png";
+// import Image2 from "./Images/ads1.jpg";
+// import Image3 from "./Images/ads2.png";
+// import Image4 from "./Images/ads3.png";
+// import Image5 from "./Images/ads4.png";
 
-import Seafreight from "./Images/parcel.jpg";
-import Warehouse from "./Images/parcel.jpg";
-import ParcelTracking from "./Images/parcel.jpg";
+import Image1 from "./Images/Picture1.jpg";
+import Image2 from "./Images/Picture2.jpg";
+import Image3 from "./Images/Picture3.jpg";
+import Image4 from "./Images/Picture4.jpg";
+
+import Seafreight from "./Images/airfreight.jpg";
+import Warehouse from "./Images/custom.jpg";
+import ParcelTracking from "./Images/truck.jpg";
+import Packing from "./Images/packing.png";
 
 import FacebookLogo from "./Images/facebook.png";
 import InstaLogo from "./Images/instagram.png";
@@ -14,13 +20,12 @@ import WhatsAppLogo from "./Images/whatsapp.png";
 import CompanyLogo from "./Images/logo.png";
 
 const data = {
-  company: "YNL Logistics & Services",
+  company: "HK Cargo Services",
   carousel: [
     { image: Image1 },
     { image: Image2 },
     { image: Image3 },
     { image: Image4 },
-    { image: Image5 },
   ],
   tabs: [
     {
@@ -48,62 +53,46 @@ const data = {
     cards: [
       {
         image: Seafreight,
-        title: "Sea Freight Shipping",
+        title: "Air Freight Shipping",
         description:
-          "Shipping goods by sea is still popular nowadays due to low cost, high sea vessel load capacity, and minimal restrictions on vessel carrying capacity.",
+          "Licensed agent from Malaysia Airlines (MH), Raya Airway (RASB), focuses on providing airway bills and to the purpose of exporting goods from W.P Labuan and importing goods to W.P Labuan (from West Malaysia extended to Singapore) .",
       },
       {
         image: Warehouse,
-        title: "Warehouse in China",
+        title: "Custom Declaration",
         description:
-          "We provide warehouse services in China. Customers can ship parcels separately to the warehouse, and we will ship to Kota Kinabalu automaticaly.",
+          "We provide services of declaring goods through customs for importers and exporters.  All staffs are trained and experience in handling all sort of goods and responsible on forwarding and documentation.",
       },
       {
         image: ParcelTracking,
-        title: "Parcel Tracking",
+        title: "Transportation",
         description:
-          "View the latest delivery statuses of all your shipments in one place and notify receiver via SMS.",
+          "HK Cargo equipped with range of transportation vehicles which includes 3T & 4T forklift, 3T trucks. We aimed to serve our customer the most competitive rates and ensure all goods are delivered timely. To better facilitate our customer, HK Cargo also provide services from goods packaging to supply of labour on handling the goods.",
+      },
+      {
+        image: Packing,
+        title: "Packaging",
+        description:
+          "Our company offers professional packing services to ensure your valuable goods are properly protected during transportation. Our experienced team uses high-quality packing materials and techniques to guarantee safe delivery of your items to their destination.",
       },
     ],
   },
-  updates: [
-    {
-      title: "海运费價格調整通告",
-      description: "調整價格将从24/3/2022之后装柜货有效",
-      date: "21/3/2022 10:52 AM",
-    },
-    {
-      title: "海运费價格調整通告",
-      description: "調整價格将从24/3/2022之后装柜货有效",
-      date: "21/3/2022 10:52 AM",
-    },
-    {
-      title: "海运费價格調整通告",
-      description: "調整價格将从24/3/2022之后装柜货有效",
-      date: "21/3/2022 10:52 AM",
-    },
-    {
-      title: "海运费價格調整通告",
-      description: "調整價格将从24/3/2022之后装柜货有效",
-      date: "21/3/2022 10:52 AM",
-    },
-  ],
   footer: {
     company: CompanyLogo,
     logos: [
       {
         icon: FacebookLogo,
-        name: "YNL Logistics",
+        name: "HK Cargo Services",
         type: "facebook",
       },
       {
         icon: InstaLogo,
-        name: "@ynllogistics",
+        name: "@hkcargoservices",
         type: "instagram",
       },
       {
         icon: WhatsAppLogo,
-        name: "+6016 200 2859",
+        name: "+6012 834 3511",
         type: "whatsapp",
       },
     ],
@@ -111,7 +100,7 @@ const data = {
     word2: "",
     word3: "",
     copyright: `COPYRIGHT ${"\u00A9"} ${new Date().getFullYear()}`,
-    rights: "YNL LOGISTICS & SERVICES SDN. BHD. ALL RIGHTS RESERVED.",
+    rights: "HK CARGO SERVICES SDN. BHD. ALL RIGHTS RESERVED.",
   },
 };
 

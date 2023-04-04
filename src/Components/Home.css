@@ -1,15 +1,64 @@
 .home {
     text-align: center;
+    height: 100vh;
 }
 
 .carousel-container {
-    width: 80%;
-    margin-left: 10%;
-    margin-top: 25px;
+    width: 100%;
+    padding-top: 100px;
 }
 
 .divider-summary {
     width: 70%;
     height: auto;
     margin-left: 15%;
+}
+
+.company-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 4rem;
+    background-color: aliceblue;
+    height: 220px;
+    font-size: 90%;
+}
+
+.company-container>* {
+    padding: 1rem 3rem;
+    align-items: flex-start;
+}
+
+.company-container div {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.company-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.company-contact {
+    flex: 1 1 0;
+    border-right: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.company-operating-hours {
+    flex: 1 1 0;
+    border-right: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.company-address {
+    flex: 3 1 0;
+}
+
+.address-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.address {
+    font-size: 100%;
+    text-align: left;
 }

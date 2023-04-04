@@ -1,0 +1,11 @@
+.services-image {
+    transition: transform .2s;
+    border: 1px solid #9799a7;
+    float: right;
+    margin: 8px 0 0 20px;
+}
+
+.services-image:active,
+.services-image:hover {
+    transform: scale(1.05);
+}

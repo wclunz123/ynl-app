@@ -1,0 +1,171 @@
+.contact {
+    width: 100%;
+    height: auto;
+    padding-top: 10%;
+    padding-bottom: 8%;
+}
+
+.contact form {
+    margin-top: 3%;
+    margin-left: 25%;
+    width: 60%;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 20% 80%;
+}
+
+.form-grid input,
+.form-grid textarea {
+    margin-left: 10%;
+    padding: 10px;
+    border: 1px solid rgba(0, 0, 0, .1);
+}
+
+#name,
+#email,
+#subject {
+    width: 70%;
+    height: 50px;
+}
+
+#message {
+    width: 70%;
+    height: 150px;
+}
+
+.contact form label {
+    font-size: 110%;
+    font-weight: 500;
+}
+
+.buttons-column {
+    width: 100%;
+    margin-left: 10%;
+    align-items: left;
+    text-align: left;
+}
+
+#required {
+    color: red;
+    font-size: 120%;
+}
+
+#mail-icon {
+    display: inline-block;
+    margin-bottom: 20px;
+    border: none;
+}
+
+@media only screen and (max-width: 1280px) {
+    .contact {
+        margin: 0;
+    }
+
+    .contact form {
+        margin-top: 5%;
+        margin-left: 5%;
+        width: 90%;
+    }
+
+    .form-grid {
+        grid-template-columns: 30% 70%;
+    }
+
+    .form-grid input,
+    .buttons-column {
+        margin-left: 2%;
+    }
+
+    #name,
+    #email,
+    #subject {
+        width: 70%;
+        height: 45px;
+    }
+
+    #message {
+        width: 70%;
+        height: 150px;
+    }
+
+    .contact form label {
+        font-size: 120%;
+    }
+}
+
+@media only screen and (max-width: 1024px) {
+    .contact {
+        margin: 0;
+    }
+
+    .contact form {
+        margin-top: 8%;
+        margin-left: 5%;
+        width: 90%;
+    }
+
+    .form-grid {
+        grid-template-columns: 35% 65%;
+    }
+
+    .form-grid input,
+    .buttons-column {
+        margin-left: 5%;
+    }
+
+    #name,
+    #email,
+    #subject {
+        width: 70%;
+        height: 40px;
+    }
+
+    #message {
+        width: 70%;
+        height: 140px;
+    }
+
+    .contact form label {
+        font-size: 110%;
+    }
+}
+
+
+@media only screen and (max-width: 768px) {
+    .contact {
+        margin: 0;
+    }
+
+    .contact form {
+        margin-top: 8%;
+        margin-left: 5%;
+        width: 90%;
+    }
+
+    .form-grid {
+        grid-template-columns: 30% 70%;
+    }
+
+    .form-grid input,
+    .buttons-column {
+        margin-left: 8%;
+    }
+
+    #name,
+    #email,
+    #subject {
+        width: 80%;
+        height: 40px;
+    }
+
+    #message {
+        width: 80%;
+        height: 130px;
+    }
+
+    .contact form label {
+        font-size: 100%;
+    }
+}

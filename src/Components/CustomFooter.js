@@ -12,7 +12,7 @@ const CustomFooter = (props) => {
     <footer className="footer px-4 py-4 bg-light">
       <div
         className="d-flex flex-column align-items-start justify-content-between w-75 mx-auto"
-        style={{ height: "85vh " }}
+        style={{ height: "50vh " }}
       >
         <div className="d-flex flex-row justify-content-between w-100">
           <div>

@@ -4,16 +4,14 @@ import { Container, Header, Content, Footer } from "rsuite";
 
 import Home from "./Components/Home";
 import About from "./Components/About";
-import Tracker from "./Components/Tracker";
-import Newsfeed from "./Components/Newsfeed";
-import NavigationBar from "./Components/Navigation/NavigationBar";
-import AdminNavBar from "./Components/Navigation/AdminNavBar";
+import Services from "./Components/Services";
 import CustomFooter from "./Components/CustomFooter";
 import Login from "./Components/Login";
+import Contact from "./Components/Contact";
 import OrderList from "./Components/OrderList";
 import Order from "./Components/Order";
 import UpdateList from "./Components/UpdateList";
-
+import Map from "./Components/Map";
 import { CircularProgress } from "@mui/material";
 import { useSelector } from "react-redux";
 import { selectToken } from "./Redux/authSlice";
@@ -37,9 +35,11 @@ function App() {
         element={
           <div>
             <Home carousel={Data.carousel} data={Data.tabs} />
-            <Tracker data={Data.tracker} />
-            <About data={Data.about} />
-            <Newsfeed />
+            <About />
+            <Services data={Data.about} />
+            {/* <Tracker data={Data.tracker} /> */}
+            {/* <Newsfeed /> */}
+            <Contact />
           </div>
         }
       />
@@ -54,13 +54,6 @@ function App() {
     <Router>
       <main>
         <Container>
-          <Header>
-            {!token ? (
-              <NavigationBar title={Data.company} />
-            ) : (
-              <AdminNavBar title={Data.company} />
-            )}
-          </Header>
           <Content>
             <Suspense
               fallback={

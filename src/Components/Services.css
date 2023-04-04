@@ -1,0 +1,32 @@
+.services {
+    width: 80%;
+    margin-left: 10%;
+    padding-top: 10%;
+    text-align: center;
+}
+
+.services-description {
+    width: 70%;
+    margin-left: 15%;
+    margin-bottom: 50px;
+}
+
+.logo-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 3rem;
+    width: 90%;
+    margin-left: 5%;
+    align-items: center;
+}
+
+.logo {
+    margin: 5px 20px;
+    transition: transform .2s;
+}
+
+.logo:active,
+.logo:hover {
+    transform: scale(1.2);
+}
